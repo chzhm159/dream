@@ -1,11 +1,29 @@
----
- 　　layout: default
- 　　title: 我的Blog 　　
----
-<h2>{{ page.title }}</h2>
-<p>最新文章</p>
-<ul>
-  {% for post in site.posts %}
-  <li>{{ post.date | date_to_string }} <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></li>
-  {% endfor %}
-</ul>
+<html>
+
+<body>
+  <h5>功能列表</h5>
+  <ul>
+    <li><span>能够接收微信订阅用户发来的消息</span></li>
+    <ul>
+      <li>语音分析|文本解析|图片分析|视频分析</li>
+      <li>性别|地理位置|年龄</li>
+      <li>用户身份识别</li>
+      <li>数据库检索</li>
+    </ul>
+    <li><span>能够回复微信用户</span>
+      <ul>
+        <li>数据库检索</li>
+        <li>数据处理</li>
+        <li>回复消息</li>
+      </ul>
+    </li>
+  </ul>
+  <h5>路线图</h5>
+  <ul>
+    <li>nginx安装</li>
+    <li>nodejs安装</li>
+    <li>nginx反向代理到nodejs</li>
+    <li>nodejs框架配置</li>
+  </ul>
+</body>
+</html
