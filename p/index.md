@@ -1,4 +1,7 @@
 <html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
 <body>
   <h5>功能列表</h5>
   <ul>
@@ -22,7 +25,12 @@
     <li>nginx安装</li>
     <li>nodejs安装</li>
     <li>nginx反向代理到nodejs</li>
-    <li>nodejs框架配置</li>
+    <li><span>nodejs框架配置</span>
+      <ul>
+        <li>nodejs框架选择的纠结</li>
+        <li>nodejs框架的搭建过程</li>
+      </ul>
+    </li>
   </ul>
 </body>
 </html>
