@@ -1,0 +1,28 @@
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+
+<body>
+  <h5>阿里云-centos7-User管理</h5>
+  <span><a href="http://linux.vbird.org/linux_basic/0410accountmanager.php">我是参考鸟哥的Linux创建的</a> </span>
+  <p>新建用户并且指定密码</p>
+  <pre>
+      <code>
+        [root@localhost ~]# useradd czm
+        [root@localhost ~]# passwd czm
+        输入两次密码
+      </code>
+  </pre>
+   <p>添加sudo能力</p>
+  <pre>
+      <code>  
+        [root@localhost ~]# vim /etc/sudoers
+        ## Allow root to run any commands anywhere
+        czm     ALL=(ALL)       ALL
+      </code>
+  </pre>
+</body>
+
+</html>

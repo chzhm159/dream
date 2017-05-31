@@ -1,0 +1,65 @@
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+
+<body>
+  <h5>阿里云-centos7-Nginx安装</h5>
+  <span><a href="https://www.nginx.com/resources/wiki/start/topics/tutorials/install/">Nginx官方安装手册</a> </span>
+  <p>新建Nginx yum源配置文件</p>
+  <pre>
+      <code>
+        [root@localhost ~]# touch /etc/yum.repos.d/nginx.repo
+      </code>
+  </pre>
+  <p>在新建的配置文件中粘贴如下内容</p>
+  <pre>
+      <code>
+        [nginx]
+        name=nginx repo
+        baseurl=http://nginx.org/packages/centos/$releasever/$basearch/
+        gpgcheck=0
+        enabled=1
+      </code>
+    </pre>
+  <p>安装Nginx</p>
+  <pre>
+      <code>
+        [root@localhost ~]# yum install nginx
+      </code>
+  </pre>
+  <p>测试Nginx</p>
+  <pre>
+      <code>
+        [root@localhost ~]# nginx -v
+        nginx version: nginx/1.12.0
+      </code>
+  </pre>
+  <p>Nginx基本配置</p>
+  <span><a href="https://www.nginx.com/resources/wiki/">官方手册</a></span>
+  <span><a href="http://blog.csdn.net/u013870094/article/details/52463026">参考这篇博客设置自动启动</a></span>
+  <h5>我选择的是非root用户执行,所以初始配置增加如下步骤</h5>
+  <p>
+    1.修改 /etc/nginx/nginx.conf 文件中的 首行 user 用户;
+  </p>
+  <p>2.同时需要修改 /var/log /var/run 的acl setfacl user:用户:rw /var/log 为/var/log添加读写权限</p>
+  <h5>修改站点根目录</h5>
+  <p>
+    1.修改 /etc/nginx/conf.d/default.conf 配置文件中 server 块中 root 为其他目录 ps: Linux的文件权限最好不要手动修改,最好按照默认的Linux权限规则来处理问题.因为一旦手改之后,往往顾前不顾后
+  </p>
+  <h5>修改完之后的403 forbidden 问题处理</h5>
+  <p>
+    1. 确认 user 指定的用户是否对 /home/xxx有正确的读写权限,因为在创建用户的时候不注意,改错权限了,导致自己对自己的目录无法操纵 </p>
+  <p>2. 确认 root 指向的目录是否存在,其中的文件是否存在</p>
+  <p>
+    3. 关闭 selinux 虚拟机中配置Nginx,为了能够让主机访问,需要开放80端口
+    <pre>
+    	<code>
+    		firewall-cmd --zone=public --add-port=80/tcp --permanent firewall-cmd --reload
+    	</code>
+    </pre>
+  </p>
+</body>
+
+</html>
