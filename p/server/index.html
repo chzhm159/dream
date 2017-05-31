@@ -1,0 +1,88 @@
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+
+<body>
+  <h5>Nodejs服务搭建流水账</h5>
+  <ul>
+    <li><span>pm2</span></li>
+    <ul>
+      <li><a href="../node/pm2.html">安装pm2</a></li>
+    </ul>
+    <li><span>Express</span>
+      <ul>
+        <li><a href="../node/express.html">安装Express</a></li>
+      </ul>
+    </li>
+    <li><span>Nginx配置</span>
+      <ul>
+        <li><a href="../nginx/simple.html">反向代理的配置</a> </li>
+      </ul>
+    </li>
+    <li><span>app.js</span>
+      <ul>
+        <li>新建app.js,内容如下</li>
+        <li>
+          <pre>
+            <code>            
+              var express = require('express');
+              var app = express();
+
+              app.get('/', function (req, res) {
+                res.send('Hello World!');
+              });
+
+              app.listen(3000, function () {
+                console.log('Example app listening on port 3000!');
+              });
+              process.on('SIGINT', function() {
+                 db.stop(function(err) {
+                   process.exit(err ? 1 : 0);
+                 });
+              });
+          </code>
+          </pre>
+        </li>
+      </ul>
+    </li>
+    <li><span>pm2 启动</span>
+      <ul>
+        <li>
+          <pre>
+          <code>
+            pm2 start app.js
+          </code>
+        </pre>
+        </li>
+      </ul>
+    </li>
+    <li><span>Nginx 重启</span>
+      <ul>
+        <li>
+          <pre>
+          <code>
+            sudo systemctl restart nginx
+          </code>
+        </pre>
+        </li>
+      </ul>
+    </li> 
+
+     <li><span>测试</span>
+      <ul>
+        <li>
+          <pre>
+          <code>
+            curl 192.168.2.82 # 这是我自己的虚拟机地址也可以浏览器访问
+            < Hello World!
+          </code>
+        </pre>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</body>
+
+</html>
