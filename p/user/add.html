@@ -15,7 +15,15 @@
         输入两次密码
       </code>
   </pre>
-   <p>添加sudo能力</p>
+  <p>添加sudo能力</p>
+  <pre>
+      <code>  
+        [root@localhost ~]# vim /etc/sudoers
+        ## Allow root to run any commands anywhere
+        czm     ALL=(ALL)       ALL
+      </code>
+  </pre>
+  <p>添加sudo能力</p>
   <pre>
       <code>  
         [root@localhost ~]# vim /etc/sudoers
