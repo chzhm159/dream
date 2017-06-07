@@ -57,8 +57,8 @@
         </pre>
         </li>
         <li><span><a href="http://pm2.keymetrics.io/docs/usage/startup/">pm2 开机启动</a></span>
-        <p>之所以选择这种方式是由于配置文件未来可以自动生成,可以配置更多多个app,以及可以部署配置</p>
-        <pre>
+          <p>之所以选择这种方式是由于配置文件未来可以自动生成,可以配置更多多个app,以及可以部署配置</p>
+          <pre>
           <code>
             $ pm2 ecosystem
           </code>
@@ -122,15 +122,27 @@
     </li>
   </ul>
   <p>现在考虑的是Express路由文件如何管理.期望达到的效果有.
-  <ul>
-    <li><span>1. url直接映射为文件,方便管理</span></li>
-    <li><span>2. 最好能够提供热重载,无需重启整个服务器,既能针对单个handle更新</span></li>
-  </ul>
+    <ul>
+      <li><span>1. url直接映射为文件,方便管理</span></li>
+      <li><span>2. 最好能够提供热重载,无需重启整个服务器,既能针对单个handle更新</span></li>
+    </ul>
   </p>
   <p>
     参考了<a href="http://fex.baidu.com/blog/2015/05/nodejs-hot-swapping/">热更</a>的思路和<a href="http://blog.fantasy.codes/node.js/2016/10/08/express-route-loader/">自动路由加载</a>可以结合一下,完成一个路由文件加载机制,暴露get,reload,update函数.app运行时通过get来获取对应的路由处理handle,路由文件的更新不是通过文件的覆盖,而是通过update函数更新路由文件.更新完之后通过reload来重新加载最新的路由文件,同时对处理中的请求继续处理.同时在服务启动的时候一次性加载所有handle
   </p>
   <p>实际运行的时候服务器端代码是否需要编译?如果需要选择什么编译框架比较好?</p>
+  <p>现在思路有点乱了.....</p>
+  <p>回到正轨,首先需要把程序跑起来,然后再做各个目录的规划</p>
+  <p>
+    <ul>
+      <li>首先分离客户端代码和服务器端代码</li>
+      <li>Ningx能够动静分离配置</li>
+    </ul>
+  </p>
+  <p>重新规划服务器上目录结构</p>
+  <p>
+    
+  </p>
 </body>
 
 </html>
