@@ -5,7 +5,7 @@ module.exports = {
    */
   apps: [{
     "name": "dream_be",
-    "script": "/home/czm/webroot/app.js",
+    "script": "/home/czm/webroot/server/app.js",
     "instances": 0,
     "watch": true,
     "exec_mode": "cluster",
