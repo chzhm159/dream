@@ -141,7 +141,42 @@
   </p>
   <p>重新规划服务器上目录结构</p>
   <p>
-    
+    <pre>
+    <code>
+    /home/xx/webroot/
+      server/ 服务端目录
+        handle/ 提供rest接口
+        libs/ 库文件
+        middle/ connect中的middleware
+        utils/ 工具文件
+      client/ 客户端目录
+        static/ 纯静态文件
+          img/
+          js/
+          css/
+        tpl/ 预计是页面的template文件 这个文件暂时没有考虑好,主要是暂时不清楚如何组装页面
+    </code>
+  </pre>
+  </p>
+  <p>
+    接下来得计划是先处理服务器端的功能
+  </p>
+  <p>
+    Https的配置,在阿里云上还是比较简单的,就不重复了,自行百度. 顺便给个链接吧<a href="https://yq.aliyun.com/articles/65199">证书如何选择</a>
+  </p>
+  <p>配置完之后注意Nginx需要的是 先停止然后启动 stop start 不是 reload</p>
+  <p>现在我的主页已经能够https访问了,当然没有放弃http,Nginx做一个301跳转既可
+    <pre>
+    <code>
+      server {
+          listen 80;
+          server_name localhost;
+          rewrite ^(.*) https://$host$1 permanent;
+      }
+      # systemctl stop nginx
+      # systemctl start nginx
+    </code>
+  </pre>
   </p>
 </body>
 
