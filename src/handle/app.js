@@ -5,9 +5,7 @@ function main() {
   app.get('/', function(req, res) {
     res.send('Hello World!');
   });
-  app.get('/a.html', function(req, res) {
-    res.send('a.html! \n');
-  });
+
   app.listen(3000, function() {
     console.log('Example app listening on port 3000!');
   });
