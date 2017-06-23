@@ -4,13 +4,13 @@
   var router = express.Router();
   var cookieParser = require('cookie-parser');
   var bodyParser = require('body-parser');
-  var bodyParser = require('body-parser');
   var timeout = require('connect-timeout');
   var app = express();
 
   var dynRouter = require('./dynamic-router.js');
   var errHandle = require('./middle/errorhandle.js');
   var defaultHandle = require('./middle/default.js');
+  var wxauth = require('./handle/wxauth.js');
   dynRouter.init(router);
   global.config = {
     baseDir: __dirname
@@ -28,11 +28,12 @@
   app.use(cookieParser());
 
   app.use(timeout('30s'))
-  app.use(errHandle);
-  app.use(defaultHandle);
 
   app.use('/', dynRouter.handleManger);
+  app.use('/wxauth', wxauth);
 
+  app.use(defaultHandle);
+  app.use(errHandle);
   app.listen(3000, function() {
     console.log('dream app listening on port 3000!');
   });

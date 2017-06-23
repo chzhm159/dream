@@ -27,6 +27,7 @@
     "cookie-parser": "latest",
     "cookie-session": "latest",
     "connect-timeout": "latest",
+    "wechat": "latest",
     "formidable": "latest"
   }
 }

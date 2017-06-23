@@ -2,7 +2,6 @@
   console.log("error middleware");
 
   function defaultHandle(req, res, next) {
-    console.log("出现错误");
     if (res.headersSent) {
       return next(err);
     }
