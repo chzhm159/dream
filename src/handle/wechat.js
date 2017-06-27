@@ -2,13 +2,15 @@
   var wechat = require('wechat');
   var config = {
     token: 'c1z5m9',
-    appid: 'appid',
-    encodingAESKey: 'encodinAESKey',
+    appid: 'wx78b1370c631699d9',
+    encodingAESKey: 'aZWNnoBUozDikJ9YFj880D97wkzmaw2cFKn0JpuCf06',
     checkSignature: true // 可选，默认为true。由于微信公众平台接口调试工具在明文模式下不发送签名，所以如要使用该测试工具，请将其设置为false
   };
   var wechat = wechat(config, function(req, res, next) {
+    console.log(JSON.stringify(req.weixin, null, 2));
     // 微信输入信息都在req.weixin上
     var message = req.weixin;
+
     if (message.FromUserName === 'diaosi') {
       // 回复屌丝(普通回复)
       res.reply('hehe');
@@ -33,18 +35,18 @@
     } else {
       // 回复高富帅(图文回复)
       res.reply([{
-        title: '你来我家接我吧',
-        description: '这是女神与高富帅之间的对话',
-        picurl: 'http://nodeapi.cloudfoundry.com/qrcode.jpg',
-        url: 'http://nodeapi.cloudfoundry.com/'
+        title: '这次搞个大事情',
+        description: '对不起大家了,最近升级中,请静候精彩功能',
+        picurl: 'http://d.ifengimg.com/w640_h500/p3.ifengimg.com/a/2017_15/8a67d268508587f_size95_w700_h700.jpg',
+        url: '#'
       }]);
     }
   });
 
   function handle(req, res, next) {
-    console.log("wxauth req.query :  " + JSON.stringify(req.query));
-    console.log("wxauth req.body :  " + JSON.stringify(req.body));
-    console.log("wxauth req.params :  " + JSON.stringify(req.params));
+    console.log("wechat req.query :  " + JSON.stringify(req.query));
+    console.log("wechat req.body :  " + JSON.stringify(req.body));
+    console.log("wechat req.params :  " + JSON.stringify(req.params));
     next();
   };
   module.exports = [handle, wechat];

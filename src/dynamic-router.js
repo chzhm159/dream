@@ -1,5 +1,4 @@
 (function() {
-  console.log("dynamic load handle");
   var dynRouter = false;
 
   var routerTable = {};

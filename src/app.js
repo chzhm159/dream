@@ -10,7 +10,7 @@
   var dynRouter = require('./dynamic-router.js');
   var errHandle = require('./middle/errorhandle.js');
   var defaultHandle = require('./middle/default.js');
-  var wxauth = require('./handle/wxauth.js');
+  var wechat = require('./handle/wechat.js');
   dynRouter.init(router);
   global.config = {
     baseDir: __dirname
@@ -30,7 +30,7 @@
   app.use(timeout('30s'))
 
   app.use('/', dynRouter.handleManger);
-  app.use('/wxauth', wxauth);
+  app.use('/wechat', wechat);
 
   app.use(defaultHandle);
   app.use(errHandle);

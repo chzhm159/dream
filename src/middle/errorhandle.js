@@ -1,5 +1,4 @@
 (function() {
-  console.log("error middleware");
 
   function errorHandler(err, req, res, next) {
     console.log("出现错误");

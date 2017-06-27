@@ -1,6 +1,4 @@
 (function() {
-  console.log("error middleware");
-
   function defaultHandle(req, res, next) {
     if (res.headersSent) {
       return next(err);
