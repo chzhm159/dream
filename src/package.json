@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/chzhm159/dream",
   "dependencies": {
+    "elasticsearch": "latest",
     "lodash": "latest",
     "express": "latest",
     "body-parser": "latest",
