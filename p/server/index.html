@@ -9,14 +9,14 @@
   <ul>
     <li><span>sudo 中配置 node,npm 命令</span>
       <pre><code>
- 	sudo vim /etc/sudoers
-	# 找到如下一行,添加后面内容
- 	# Defaults    secure_path = xxxx:/opt/node-v7.10.0-linux-x64/bin 	
+  sudo vim /etc/sudoers
+  # 找到如下一行,添加后面内容
+  # Defaults    secure_path = xxxx:/opt/node-v7.10.0-linux-x64/bin  
   </code></pre></li>
     <li><span>npm 配置为淘宝源</span>
       <pre>
       <code>
-    	sudo npm config --global set registry='https://registry.npm.taobao.org'
+      sudo npm config --global set registry='https://registry.npm.taobao.org'
     </code>
     </pre>
     </li>
@@ -203,6 +203,104 @@
   </p>
   <p>
     <a href="https://www.loggly.com/blog/three-node-js-libraries-which-make-sophisticated-logging-simpler/">nodejs 日志模块</a>
+  </p>
+  <p>
+    经过一番折腾,微信公众号已经和阿里云的服务器对接了,另外并没有先实现handle的动态加载,而是先用Express默认的路由机制,本身就一个接口
+  </p>
+  <p>接下来配置服务器上的数据库,其实在数据库的选择上还是比较纠结的,主要纠结在mongodb和Elastic之间,mongodb之间,但水平不够,无法区分两者对于我的影响,但是考虑到这个项目的前期主要是搜索,所以还是先用ES,大不了后期再换数据库也容易
+    <ul>
+      <li><span>安装java</span></li>
+      <li>
+        <span><a href="http://www.oracle.com/technetwork/java/javase/downloads/server-jre8-downloads-2133154.html">server jre下载</a></span>
+      </li>
+      <li>
+        <p>配置环境变量</p>
+        <p>将下载的server-jre-8u131-linux-x64.tar文件放在了/opt目录下</p>
+        <p>需要补充一篇几个jvm版本的区别</p>
+        <p>解压</p>
+        <pre>
+        <code>
+         # tar -xvf server-jre-8u131-linux-x64.tar.gz
+        </code>
+      </pre>
+        <span>然后配置环境变量</span> 编辑文件 /etc/profile 并在最后追加如下内容
+        <pre>
+        <code>
+          JAVA_HOME=/opt/jdk1.8.0_131/bin
+          export JAVA_HOME
+          PATH=xxx:/opt/jdk1.8.0_131/bin
+        </code>
+      </pre> 保存退出后,使环境变量生效
+        <pre>
+        <code>
+          source /etc/profile
+          # 两条测试命令
+          javac -version
+          java -version
+        </code>
+      </pre>
+      </li>
+      <li>
+        <p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/_installation.html">Elastic安装</a></p>
+        <p>最好采用rpm安装</p>
+        <p>安装完之后就是配置我的配置主要就是两点</p>
+        <p>1. 修改data目录, 修改elasticsearch.yml中的 path.data = /home/czm/data/db</p>
+        <p>2. 修改jvm参数,因为我的服务器内存实在太小..., 2G 内存!. 修改jvm.options中的 -Xms512M ; -Xmx512M 先跑起来再说</p>
+        <p>
+          <pre>
+            <code>
+              sudo systemctl daemon-reload
+              sudo systemctl enable elasticsearch
+              sudo systemctl start elasticsearch
+            </code>
+          </pre>
+        </p>
+        <p>
+          期间遇到两个问题
+          <ul>
+            <li>
+              java 环境变量是配置在了 /etc/profile文件中了,但是不知道为什么,es在启动的时候报找不到java
+              <p>解决办法我是直接 /etc/sysconfig/elasticsearch 中加入了java的安装路径</p>
+            </li>
+            <li>
+              以为ES是rpm安装,安装过后是新建了一个"elasticsearch"的用户,导致我修改了path.data之后,启动失败
+              <p>解决办法是简单粗暴的 setfacl -R -m g:elasticsearch /home/czm </p>
+            </li>
+          </ul>
+        </p>
+        <p>
+          启动后测试是否正确
+          <pre>
+            <code>
+              curl localhost:9200 
+              {
+                "name" : "dream-data-1",
+                "cluster_name" : "xxxx",
+                "cluster_uuid" : "xxx",
+                "version" : {
+                  "number" : "5.4.2",
+                  "build_hash" : "xxxx",
+                  "build_date" : "2017-06-xxxx:29:28.122Z",
+                  "build_snapshot" : false,
+                  "lucene_version" : "6.5.1"
+                },
+                "tagline" : "You Know, for Search"
+              }
+            </code>
+          </pre>
+        </p>
+        <p>
+          默认的log貌似是/var/log/elasticsearch目录
+        </p>
+      </li>
+    </ul>
+  </p>
+  <p>
+    继续前进,接下来需要干这些活
+    <ul>
+      <li>安装head插件,现在貌似没有必要,先跳过</li>
+      <li>安装Elastic 的nodejs模块</li>
+    </ul>
   </p>
 </body>
 
