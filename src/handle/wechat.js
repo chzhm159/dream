@@ -1,5 +1,7 @@
 (function() {
   var wechat = require('wechat');
+  var textHandler = require('./textHandler.js');
+
   var config = {
     token: 'c1z5m9',
     appid: 'wx78b1370c631699d9',
@@ -49,5 +51,5 @@
     console.log("wechat req.params :  " + JSON.stringify(req.params));
     next();
   };
-  module.exports = [handle, wechat];
+  module.exports = [handle /*, wechat*/ ];
 })();

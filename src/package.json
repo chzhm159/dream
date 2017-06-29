@@ -22,7 +22,10 @@
   "homepage": "https://github.com/chzhm159/dream",
   "dependencies": {
     "elasticsearch": "latest",
+    "murmurhash3": "latest",
+    "seedrandom": "latest",
     "lodash": "latest",
+    "bluebird": "latest",
     "express": "latest",
     "body-parser": "latest",
     "cookie-parser": "latest",

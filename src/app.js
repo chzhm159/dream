@@ -11,16 +11,24 @@
   var errHandle = require('./middle/errorhandle.js');
   var defaultHandle = require('./middle/default.js');
   var wechat = require('./handle/wechat.js');
+  // 数组,字符串,数字等工具函数
+  global._ = require('lodash');
+  // promise的流控
+  global.bbd = require('bluebird');
+
   dynRouter.init(router);
+
   global.config = {
     baseDir: __dirname
   };
 
   global.reqlib = function(packageName) {
+    console.log(">>>>>>>>>>>> "+path.join(global.config.baseDir, "libs", packageName + ".js"));
     return require(path.join(global.config.baseDir, "libs", packageName + ".js"));
   };
 
   global.reqsys = require;
+
 
   // 基本的middlewware
   app.use(bodyParser.json());

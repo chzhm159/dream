@@ -12,6 +12,7 @@ module.exports = {
    * pm2 delete xxx 
    * # 生产环境 仅仅启动 dream这个app
    * pm2 start ~/webroot/server/ecosystem.config.js --only dream --env production
+   * pm2 start ~/webroot/server/ecosystem.config.js --only dev --env development
    * pm2 save
    * # 重新生成启动脚本,按照提示执行命令
    * pm2 startup systemd -u czm --hp /home/czm
@@ -24,10 +25,6 @@ module.exports = {
     "watch": true,
     "exec_mode": "cluster",
     "cwd": "/home/czm",
-    "env": {
-      "PORT": 3000,
-      "NODE_ENV": "development",
-    },
     "env_production": {
       "PORT": 3000,
       "NODE_ENV": "production"
@@ -39,6 +36,17 @@ module.exports = {
     "watch": true,
     "exec_mode": "cluster",
     "cwd": "/Users/czm/code/dreamServer/dream/src/",
+    "env": {
+      "PORT": 3000,
+      "NODE_ENV": "development",
+    }
+  }, {
+    "name": "dev_vm",
+    "script": "/home/czm/webroot/server/app.js",
+    "instances": 2,
+    "watch": true,
+    "exec_mode": "cluster",
+    "cwd": "/home/czm",
     "env": {
       "PORT": 3000,
       "NODE_ENV": "development",
