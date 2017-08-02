@@ -25,6 +25,7 @@
     "murmurhash3": "latest",
     "seedrandom": "latest",
     "lodash": "latest",
+    "fs-extra": "latest",
     "bluebird": "latest",
     "express": "latest",
     "body-parser": "latest",

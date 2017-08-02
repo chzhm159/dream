@@ -6,13 +6,16 @@
     token: 'c1z5m9',
     appid: 'wx78b1370c631699d9',
     encodingAESKey: 'aZWNnoBUozDikJ9YFj880D97wkzmaw2cFKn0JpuCf06',
-    checkSignature: true // 可选，默认为true。由于微信公众平台接口调试工具在明文模式下不发送签名，所以如要使用该测试工具，请将其设置为false
+    checkSignature: false // 可选，默认为true。由于微信公众平台接口调试工具在明文模式下不发送签名，所以如要使用该测试工具，请将其设置为false
   };
   var wechat = wechat(config, function(req, res, next) {
     console.log(JSON.stringify(req.weixin, null, 2));
     // 微信输入信息都在req.weixin上
     var message = req.weixin;
-
+    if (message.MsgType === 'device_text') {
+      res.reply("呵呵");
+      return;
+    }
     if (message.FromUserName === 'diaosi') {
       // 回复屌丝(普通回复)
       res.reply('hehe');
@@ -51,5 +54,5 @@
     console.log("wechat req.params :  " + JSON.stringify(req.params));
     next();
   };
-  module.exports = [handle /*, wechat*/ ];
+  module.exports = [handle, textHandler];
 })();

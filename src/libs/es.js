@@ -2,7 +2,7 @@
   var Elasticsearch = require('elasticsearch');
   var path = require("path");
   var mmh3 = require('murmurhash3');
-  var utils = global.reqlib("util");
+  var utils = global.reqlib("utils");
 
   var newinstance = function() {
     var instance = new Elasticsearch.Client({

@@ -3,9 +3,6 @@
   var mmh3 = require('murmurhash3');
   var seedrandom = require("seedrandom");
 
-
-
-
   var _idtester = /^[0-9a-f]{32}$/i;
 
   function isId(str) {
