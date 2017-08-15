@@ -1,4 +1,6 @@
 (function() {
+  // console.log(" 在 es 中 cwd : " + process.cwd());
+  // console.log("libs/ __dirname: " + __dirname);
   var Elasticsearch = require('elasticsearch');
   var path = require("path");
   var mmh3 = require('murmurhash3');
