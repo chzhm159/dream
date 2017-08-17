@@ -22,7 +22,7 @@
             "must_not": [],
             "should": []
           }
-        },
+        }
       }
     };
     if (!_.isEmpty(query.search)) {
