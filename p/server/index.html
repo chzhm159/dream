@@ -243,9 +243,28 @@
       <li>
         <p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/_installation.html">Elastic安装</a></p>
         <p>最好采用rpm安装</p>
-        <p>安装完之后就是配置我的配置主要就是两点</p>
-        <p>1. 修改data目录, 修改elasticsearch.yml中的 path.data = /home/czm/data/db</p>
-        <p>2. 修改jvm参数,因为我的服务器内存实在太小..., 2G 内存!. 修改jvm.options中的 -Xms512M ; -Xmx512M 先跑起来再说</p>
+        <p>安装完之后就是配置我的配置部分内容 </br>
+          <pre>
+            <code>
+              1. 修改ES中java目录
+                sudo vim /etc/sysconfig/elasticsearch
+                JAVA_HOME=/opt/jdk1.8.0_144
+              2. 修改ES基本配置
+                sudo vim /etc/elasticsearch/elasticsearch.yml
+                  cluster.name: dream
+                  node.name: dream-data-1
+                  path.data: /home/czm/data/db
+                  path.logs: /var/log/elasticsearch
+                  network.host: 127.0.0.1
+                  http.cors.enabled: true
+                  http.cors.allow-origin: "*"
+              3. 修改JVM配置
+                sudo vim /etc/elasticsearch/jvm.options
+                  -Xms1g
+                  -Xmx1g
+              </code>
+            </pre>
+        </p>
         <p>
           <pre>
             <code>
@@ -260,11 +279,19 @@
           <ul>
             <li>
               java 环境变量是配置在了 /etc/profile文件中了,但是不知道为什么,es在启动的时候报找不到java
-              <p>解决办法我是直接 /etc/sysconfig/elasticsearch 中加入了java的安装路径</p>
+              <p>解决办法我是直接 /etc/sysconfig/elasticsearch 中加入了java的安装路径,</p>
             </li>
             <li>
               以为ES是rpm安装,安装过后是新建了一个"elasticsearch"的用户,导致我修改了path.data之后,启动失败
-              <p>解决办法是简单粗暴的 setfacl -R -m g:elasticsearch /home/czm </p>
+              <p>解决办法比较笨:</br>
+                <pre>
+                <code>
+                  setfacl -m u:elasticsearch:x /home/czm
+                  setfacl -m u:elasticsearch:x /home/czm/data
+                  setfacl -m u:elasticsearch:rwx /home/czm/data/db
+                </code>
+              </pre>
+              </p>
             </li>
           </ul>
         </p>
@@ -296,11 +323,78 @@
     </ul>
   </p>
   <p>
-    继续前进,接下来需要干这些活
-    <ul>
-      <li>安装head插件,现在貌似没有必要,先跳过</li>
-      <li>安装Elastic 的nodejs模块</li>
-    </ul>
+    当时为了先把环境搭建起来,nginx是通过rmp安装的,随后发现这种方式后续安装module不方便,所以卸载后选择编译安装 </br>
+    <pre><code>
+    Note : These steps to Remove / Uninstall Nginx has been tested on CentOS, RHEL and Oracle Linux platform and was running under root privilege.
+    
+
+    0. yum install gcc-c++
+
+
+    1. Stop Nginx service and remove Nginx auto start script :
+      [root@rhel7 ~]# sudo systemctl stop nginx.service
+      [root@rhel7 ~]# sudo systemctl disable nginx.service
+
+
+    2. Remove Nginx user and it related directory :
+      [root@rhel7 ~]# sudo userdel -r nginx
+
+
+    3. Delete and related Nginx installation directory :
+      [root@rhel7 ~]# sudo rm -rf /etc/nginx
+      [root@rhel7 ~]# sudo rm -rf /var/log/nginx
+      [root@rhel7 ~]# sudo rm -rf /var/cache/nginx/
+
+
+    4. Remove the created nginx.service script under systemd :
+      [root@rhel7 ~]# sudo rm -rf /usr/lib/systemd/system/nginx.service
+
+    </code></pre> 源码编译安装 </br>
+    官网地址:<a href="https://www.nginx.com/resources/admin-guide/installing-nginx-open-source/">https://www.nginx.com/resources/admin-guide/installing-nginx-open-source/</a> </br>
+    我是用在外网,稳定优先所以选择stable版,安装过程参考官网即可
+  </p>
+  <p>
+    <p>源码编译安装最新版 <a href="https://redis.io/topics/quickstart">https://redis.io/topics/quickstart</a>
+      </br>
+      <pre>
+          <code>
+          wget 'http://download.redis.io/releases/redis-4.0.1.tar.gz'
+          tar xzf redis-4.0.1.tar.gz
+          cd redis-4.0.1
+          make distclean
+          make
+          make install
+
+          sudo mkdir /etc/redis
+          sudo mkdir /var/redis
+          sudo cp utils/redis_init_script /etc/init.d/redis_6379
+          sudo vi /etc/init.d/redis_6379
+          sudo cp redis.conf /etc/redis/6379.conf
+          sudo mkdir /var/redis/6379
+          </code>
+        </pre>
+      <p>
+        <p>Edit the configuration file, making sure to perform the following changes:</p>
+        <p>Set 'daemonize' to yes (by default it is set to no).</p>
+        <p>Set the 'pidfile' to /var/run/redis_6379.pid (modify the port if needed).</p>
+        <p>Change the port accordingly. In our example it is not needed as the default port is already 6379.</p>
+        <p>Set your preferred loglevel.</p>
+        <p>Set the 'logfile' to /var/log/redis_6379.log</p>
+        <p>Set the 'dir' to /var/redis/6379 (very important step!)</p>
+        <p>Set 'supervised' systemd (by default it is set to no).</p>
+        <p>因为我的系统是Centos7,使用systemd,所以到这就不按照官网的配置执行而是直接执行以下命令,虽然/etc/systemd/system/下并没有对应的配置文件,但是是可以正常启动的(找了一下原因没找到,但是测试正常就没管)</p>
+      </p>
+      然后启动服务
+      <pre>
+        <code>
+          systemctl daemon-reload
+          sudo systemctl enable redis_6379
+          sudo systemctl start redis_6379;systemctl status redis_6379
+          redis-cli ping
+          > PONG # 正常
+        </code>
+      </pre>
+    </p>
   </p>
 </body>
 
